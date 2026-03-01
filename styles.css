@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e5e5e5;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  background: white;
+  margin: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* LADO IZQUIERDO */
+.left-side {
+  width: 50%;
+  background: linear-gradient(135deg, #2eacf9, #2a5298);
+  color: white;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-circle {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+}
+
+.left-content {
+  text-align: center;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-content h2 {
+  font-size: 28px;
+}
+
+.left-content p {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.logo {
+  width: 200px;
+  margin-bottom: 25px;
+}
+
+/* LADO DERECHO */
+.right-side {
+  width: 50%;
+  padding: 60px 80px;
+  position: relative;
+}
+
+.datetime {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-weight: bold;
+  color: #555;
+}
+
+.right-side h1 {
+  margin-top: 40px;
+  color: #2a5298;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 40px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+select,
+input {
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  background: #f0f0f0;
+  font-size: 14px;
+}
+
+button {
+  margin-top: 30px;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(90deg, #2eacf9, #2a5298);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
