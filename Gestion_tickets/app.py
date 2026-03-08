@@ -14,13 +14,6 @@ def login( ):
 
     return render_template('index.html')
 
-
-
-
-if __name__ == '__main__':
-    init_db()        # crea la base de datos y tablas
-    app.run(debug=True)
-
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard_usuario.html')
@@ -29,3 +22,11 @@ def dashboard():
 @app.route('/crear_ticket')
 def crear_ticket():
     return render_template('crear_ticket.html')
+
+
+
+
+if __name__ == '__main__':
+    init_db()        # crea la base de datos y tablas
+    app.run(debug=True)
+
