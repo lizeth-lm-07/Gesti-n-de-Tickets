@@ -9,6 +9,7 @@
 
 <body>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/styles.css') }}">
 <div class="container">
 
     <!-- LADO IZQUIERDO -->
@@ -29,8 +30,7 @@
         <p class="subtitle">Ingresa tus credenciales para continuar</p>
 
         <form>
-            <label>Tipo</label>
-            <select>
+            <label for="tipo"> Tipo</label>            <select name="tipo" id="tipo">
                 <option>Alumno</option>
                 <option>Docente</option>
                 <option>Administración</option>
