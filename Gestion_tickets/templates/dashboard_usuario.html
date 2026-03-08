@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel de Usuario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+
+<h1>Panel de Tickets</h1>
+
+<a href="/crear_ticket">
+    <button>Crear Ticket</button>
+</a>
+
+<h2>Mis Tickets</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Titulo</th>
+        <th>Estado</th>
+        <th>Prioridad</th>
+        <th>Fecha</th>
+    </tr>
+
+    <tr>
+        <td>1</td>
+        <td>Proyector no funciona</td>
+        <td>Pendiente</td>
+        <td>Alta</td>
+        <td>20/03/2026</td>
+    </tr>
+
+</table>
+
+</body>
+</html>
