@@ -3,63 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INBI - Gestión de Tickets</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<title>{% block title %}INBI - Gestión de Tickets{% endblock %}</title>
+
 </head>
 
 <body>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='static/styles.css') }}">
-<div class="container">
 
-    <!-- LADO IZQUIERDO -->
-    <div class="left-side">
-        <div class="overlay-circle"></div>
-        <div class="left-content">
-            <h2>Instituto Neurolingüístico Bilingüe</h2>
-            <p>Tu plataforma de quejas siempre disponible :)</p>
-        </div>
-    </div>
 
-    <!-- LADO DERECHO -->
-    <div class="right-side">
 
-        <div class="datetime" id="datetime"></div>
+{% block content %}
 
-        <h1>Bienvenido</h1>
-        <p class="subtitle">Ingresa tus credenciales para continuar</p>
 
-        <form>
-            <label for="tipo"> Tipo</label>            <select name="tipo" id="tipo">
-                <option>Alumno</option>
-                <option>Docente</option>
-                <option>Administración</option>
-            </select>
 
-            <label>Cuenta</label>
-            <input type="text" placeholder="Ingrese su cuenta">
+{% endblock %}
 
-            <label>Contraseña</label>
-            <input type="password" placeholder="Ingrese su contraseña">
 
-            <button type="submit">Entrar</button>
-        </form>
-
-    </div>
-
-</div>
-
-<script>
-function updateDateTime() {
-  const now = new Date();
-  const date = now.toLocaleDateString('es-MX');
-  const time = now.toLocaleTimeString('es-MX');
-  document.getElementById("datetime").innerHTML = 
-  "📅 " + date + " &nbsp;&nbsp; 🕒 " + time;
-}
-setInterval(updateDateTime, 1000);
-updateDateTime();
-</script>
 
 </body>
 </html>

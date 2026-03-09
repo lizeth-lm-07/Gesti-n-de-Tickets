@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html>
+{% extends "index.html" %}
+
+{% block title %}Panel de Usuario{% endblock %}
+
+{% block content %}
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Usuario</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
-<body>
-
 <h1>Panel de Tickets</h1>
+
+
 
 <a href="/crear_ticket">
     <button>Crear Ticket</button>
@@ -35,6 +36,4 @@
     </tr>
 
 </table>
-
-</body>
-</html>
+{% endblock %}

@@ -1,14 +1,8 @@
- <!DOCTYPE html>
-<html>
-<head>
+{% extends "index.html" %}
 
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crear Ticket</title>
-</head>
+{% block title %}Crear Ticket{% endblock %}
 
-<body>
-
+{% block content %}
 <h1>Crear Ticket</h1>
 
 <form>
@@ -40,6 +34,4 @@
 <button type="submit">Enviar Ticket</button>
 
 </form>
-
-</body>
-</html>
+{% endblock %}
