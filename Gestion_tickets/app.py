@@ -23,7 +23,7 @@ def login_page():
         if user:
             tipo_usuario = user[2]
             if tipo_usuario == 3:
-                return redirect(url_for('dashboard_admin'))
+                return redirect(url_for('dashboard'))
             else:
                 return redirect(url_for('dashboard'))
         else:
@@ -37,14 +37,29 @@ def dashboard():
     return render_template('dashboard_usuario.html')
 
 
-@app.route('/dashboard_admin')
-def dashboard_admin():
-    # Puedes crear dashboard_admin.html o reutilizar dashboard_usuario.html
-    return render_template('dashboard_usuario.html')
 
 
-@app.route('/crear_ticket')
+
+@app.route('/crear_ticket', methods=['GET', 'POST'])
 def crear_ticket():
+
+    if request.method == 'post':
+        titulo = request.form['titulo']
+        descripcion = request.form['descripcion']
+        id_categoria = request.form['categoria']
+        id_prioridad = request.form['prioridad']
+        id_usuario = Database("tickets.db").login(request.form['correo'], request.form['contrasena'])[0]  # Obtener id_usuario del login
+
+        db_instance = Database("tickets.db")
+        db_instance.crear_ticket(titulo, descripcion, id_categoria, id_prioridad, id_usuario)
+
+        ticket=db_instance.obtener_tickets(id_usuario=id_usuario)  # Verificar que el ticket se ha creado correctamente
+        print("Ticket creado:", ticket)
+
+        return redirect(url_for('dashboard'))
+
+
+    
     return render_template('crear_ticket.html')
 
 
