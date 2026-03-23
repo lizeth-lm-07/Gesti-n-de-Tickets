@@ -32,4 +32,49 @@ class Database:
         )
         user = cursor.fetchone()
         self.disconnect()
-        return user  # Devuelve None si no se encuentra el usuario
+        return user  
+    
+    def obtener_usuario_por_id(self, id_usuario):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "SELECT id_usuario, nombre, correo, id_rol FROM usuario WHERE id_usuario = ?",
+            (id_usuario,)
+        )
+        user = cursor.fetchone()
+        self.disconnect()
+        return user
+    
+    def obtener_tickets(self, id_ticket=None, id_usuario=None):
+        self.connect()
+        cursor = self.conn.cursor()
+        if id_ticket:
+            cursor.execute(
+                "SELECT * FROM ticket WHERE id_ticket = ?",
+                (id_ticket,)
+            )
+        elif id_usuario:
+            cursor.execute(
+                "SELECT * FROM ticket WHERE id_usuario = ?",
+                (id_usuario,)
+            )
+        else:
+            cursor.execute("SELECT * FROM ticket")
+        
+        tickets = cursor.fetchall()
+        self.disconnect()
+        return tickets
+
+    def crear_ticket(self, titulo, descripcion, id_categoria, id_prioridad, id_usuario):
+        self.connect( )
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "INSERT INTO ticket (titulo, descripcion, id_categoria, id_prioridad, id_usuario) VALUES (?, ?, ?, ?, ?)",
+            (titulo, descripcion, id_categoria, id_prioridad, id_usuario)
+        )
+
+        
+       
+
+        self.conn.commit()
+        self.disconnect()
