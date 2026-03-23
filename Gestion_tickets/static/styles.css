@@ -4,6 +4,7 @@ body {
   background: #e5e5e5;
 }
 
+/* CONTENEDOR GENERAL */
 .container {
   display: flex;
   height: 100vh;
@@ -14,7 +15,9 @@ body {
   box-shadow: 0 15px 40px rgba(0,0,0,0.2);
 }
 
+/* ========================= */
 /* LADO IZQUIERDO */
+/* ========================= */
 .left-side {
   width: 50%;
   background: linear-gradient(135deg, #2eacf9, #2a5298);
@@ -31,8 +34,9 @@ body {
   height: 400px;
   background: rgba(255,255,255,0.08);
   border-radius: 50%;
-  top: -100px;
-  right: -100px;
+  top: -150px;
+  right: -120px;
+  opacity: 0.6;
 }
 
 .left-content {
@@ -41,67 +45,101 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.logo-top {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  filter: drop-shadow(0px 10px 25px rgba(0,0,0,0.4))
+          drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.805));
+  z-index: 3;
 }
 
 .left-content h2 {
   font-size: 28px;
+  margin: 0;
+  color: #fff;
 }
 
 .left-content p {
   margin-top: 10px;
   font-size: 16px;
+  opacity: 0.9;
+  color: #fff;
 }
 
-.logo {
-  width: 200px;
-  margin-bottom: 25px;
-}
-
+/* ========================= */
 /* LADO DERECHO */
+/* ========================= */
 .right-side {
   width: 50%;
-  padding: 60px 80px;
+  padding: 80px 80px;
   position: relative;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
+/* FECHA Y HORA */
 .datetime {
   position: absolute;
   top: 20px;
   right: 40px;
   font-weight: bold;
-  color: #555;
+  color: #000;
 }
 
+/* TITULO */
 .right-side h1 {
-  margin-top: 40px;
+  margin-top: 30px;
+  font-size: 32px;
+  font-weight: 600;
   color: #2a5298;
+  text-align: center;
 }
 
+/* SUBTITULO */
 .subtitle {
   color: #777;
-  margin-bottom: 40px;
+  font-size: 15px;
+  margin-bottom: 50px;
+  text-align: center;
 }
 
+/* FORMULARIO */
 form {
   display: flex;
   flex-direction: column;
 }
 
+/* LABELS */
 label {
   margin-top: 15px;
   margin-bottom: 5px;
   font-weight: 500;
 }
 
-select,
+/* INPUTS */
 input {
-  padding: 12px;
+  padding: 14px;
   border-radius: 25px;
-  border: none;
-  background: #f0f0f0;
+  border: 2px solid transparent;
+  background: #f5f7fa;
   font-size: 14px;
+  transition: 0.2s;
 }
 
+input:focus {
+  outline: none;
+  border: 2px solid #2eacf9;
+  background: white;
+}
+
+/* BOTON */
 button {
   margin-top: 30px;
   padding: 14px;
@@ -109,12 +147,43 @@ button {
   border: none;
   background: linear-gradient(90deg, #2eacf9, #2a5298);
   color: white;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* LINK */
+a {
+  color: #2eacf9;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ERROR */
+.error-msg {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ANIMACION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

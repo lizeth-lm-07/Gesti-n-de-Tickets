@@ -1,6 +1,5 @@
 import sqlite3
 from sqlite3 import Error
-
 import os
 
 
@@ -23,6 +22,7 @@ class Database:
             self.conn.close()
             print("Conexión a la base de datos cerrada.")
 
+    # 🔐 LOGIN
     def login(self, correo, contraseña):
         self.connect()
         cursor = self.conn.cursor()
@@ -33,7 +33,30 @@ class Database:
         user = cursor.fetchone()
         self.disconnect()
         return user  
-    
+
+    # 🔎 BUSCAR USUARIO (PARA VALIDAR REGISTRO)
+    def buscar_usuario(self, correo):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "SELECT * FROM usuario WHERE correo = ?",
+            (correo,)
+        )
+        user = cursor.fetchone()
+        self.disconnect()
+        return user
+
+    # ➕ REGISTRAR USUARIO
+    def registrar_usuario(self, nombre, correo, contrasena, tipo):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "INSERT INTO usuario (nombre, correo, contraseña, id_rol) VALUES (?, ?, ?, ?)",
+            (nombre, correo, contrasena, tipo)
+        )
+        self.conn.commit()
+        self.disconnect()
+
     def obtener_usuario_por_id(self, id_usuario):
         self.connect()
         cursor = self.conn.cursor()
@@ -44,7 +67,7 @@ class Database:
         user = cursor.fetchone()
         self.disconnect()
         return user
-    
+
     def obtener_tickets(self, id_ticket=None, id_usuario=None):
         self.connect()
         cursor = self.conn.cursor()
@@ -66,15 +89,11 @@ class Database:
         return tickets
 
     def crear_ticket(self, titulo, descripcion, id_categoria, id_prioridad, id_usuario):
-        self.connect( )
+        self.connect()
         cursor = self.conn.cursor()
         cursor.execute(
             "INSERT INTO ticket (titulo, descripcion, id_categoria, id_prioridad, id_usuario) VALUES (?, ?, ?, ?, ?)",
             (titulo, descripcion, id_categoria, id_prioridad, id_usuario)
         )
-
-        
-       
-
         self.conn.commit()
         self.disconnect()

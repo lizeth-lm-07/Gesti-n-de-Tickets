@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block title %}Registro - INBI{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<div class="container">
+
+    <div class="right-side" style="margin: auto; width: 400px;">
+
+        <h1>Crear Cuenta</h1>
+        <p class="subtitle">Regístrate para usar el sistema</p>
+
+        {% if error %}
+            <p class="error-msg">{{ error }}</p>
+        {% endif %}
+
+        <form action="{{ url_for('registro') }}" method="POST">
+
+            <label>Nombre</label>
+            <input type="text" name="nombre" required>
+
+            <label>Correo</label>
+            <input type="text" name="correo" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="contrasena" required>
+
+            <label>Tipo</label>
+            <select name="tipo">
+                <option value="1">Alumno</option>
+                <option value="2">Docente</option>
+            </select>
+
+            <button type="submit">Registrarse</button>
+
+        </form>
+
+        <p style="margin-top:10px;">
+            ¿Ya tienes cuenta?
+            <a href="{{ url_for('login_page') }}">Inicia sesión</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

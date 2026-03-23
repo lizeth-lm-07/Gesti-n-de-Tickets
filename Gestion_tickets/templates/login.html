@@ -11,6 +11,7 @@
     <!-- LADO IZQUIERDO -->
     <div class="left-side">
         <div class="overlay-circle"></div>
+        <img src = "{{ url_for('static', filename='logo.png') }}" class = "logo-top" > 
         <div class="left-content">
             <h2>Instituto Neurolingüístico Bilingüe</h2>
             <p>Tu plataforma de quejas siempre disponible :)</p>
@@ -20,7 +21,7 @@
     <!-- LADO DERECHO -->
     <div class="right-side">
 
-        <div class="datetime" id="datetime"></div>
+        <div class="datetime" id="datetime"></div> 
 
         <h1>Bienvenido</h1>
         <p class="subtitle">Ingresa tus credenciales para continuar</p>
@@ -31,15 +32,9 @@
 
         <form action="{{ url_for('login_page') }}" method="POST">
 
-            <label for="tipo">Tipo</label>
-            <select name="tipo" id="tipo">
-                <option value="1">Alumno</option>
-                <option value="2">Docente</option>
-                <option value="3">Administración</option>
-            </select>
 
             <label for="correo">Cuenta</label>
-            <input type="text" id="correo" name="correo" placeholder="Ingrese su cuenta" required>
+            <input type="text" id="correo" name="correo" placeholder="ejemplo@inbi.mx" required>
 
             <label for="contrasena">Contraseña</label>
             <input type="password" id="contrasena" name="contrasena" placeholder="Ingrese su contraseña" required>

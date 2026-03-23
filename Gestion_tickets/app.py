@@ -31,7 +31,7 @@ def login_page():
             session['user_id'] = user[0]  # Store user ID in session
             tipo_usuario = user[2]
             if tipo_usuario == 3:
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard_admin'))
             else:
                 return redirect(url_for('dashboard'))
         else:
@@ -39,14 +39,25 @@ def login_page():
 
     return render_template('login.html')
 
-    return render_template('login.html')
-
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard_usuario.html')
+    id_usuario = session.get('user_id')
 
+    if id_usuario is None:
+        return redirect(url_for('login_page'))
 
+    db_instance = Database(db_path)
+    user = db_instance.obtener_usuario_por_id(id_usuario)
+
+    # user = (id_usuario, nombre, correo, id_rol)
+    nombre = user[1]
+
+    return render_template('dashboard_usuario.html', nombre=nombre)
+
+@app.route('/dashboard_admin')
+def dashboard_admin():
+    return render_template('dashboard_admin.html')
 
 @app.route('/crear_ticket', methods=['GET', 'POST'])
 def crear_ticket():
@@ -74,7 +85,28 @@ def crear_ticket():
 def status():
     return render_template('status_ticket.html')
 
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        contrasena = request.form['contrasena']
+        tipo = request.form['tipo']
 
+        db_instance = Database(db_path)
+
+        # Verificar si el usuario ya existe
+        existe = db_instance.buscar_usuario(correo)
+
+        if existe:
+            return render_template('registro.html', error="El correo ya ya está registrado")
+
+        # Registrar usuario
+        db_instance.registrar_usuario(nombre, correo, contrasena, tipo)
+
+        return redirect(url_for('login_page'))
+
+    return render_template('registro.html')
     
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos y tablas al arrancar

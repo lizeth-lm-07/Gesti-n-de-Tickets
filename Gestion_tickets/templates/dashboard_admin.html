@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<div style="padding: 40px;">
+
+    <h1>Panel de Administración</h1>
+
+    <p>Gestión de tickets</p>
+
+    <br>
+
+    <a href="#">
+        <button>Ver todos los tickets</button>
+    </a>
+
+    <br><br>
+
+    <a href="#">
+        <button>Gestión de áreas</button>
+    </a>
+
+</div>
+
+{% endblock %}
