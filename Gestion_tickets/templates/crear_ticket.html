@@ -3,35 +3,65 @@
 {% block title %}Crear Ticket{% endblock %}
 
 {% block content %}
-<h1>Crear Ticket</h1>
 
-<form>
+<link rel="stylesheet" href="{{ url_for('static', filename='crear_ticket.css') }}">
 
-<label for="titulo">Titulo</label>
-<input type="text" id="titulo" name="titulo">
+<div class="page">
+    <div class="header">
+        <span>INBI - SOPORTE</span>
+        <h1>Crear ticket</h1>
+    </div>
 
-<br><br>
+    <div class="card">
+        <form class="form">
 
-<label for="descripcion">Descripción</label>
-<textarea id="descripcion" name="descripcion"></textarea>
+            <div class="form-group">
+                <label>TÍTULO</label>
+                <input type="text" placeholder="Ingresa el título de la situación" />
+            </div>
 
-<br><br>
+            <div class="form-group">
+                <label>DESCRIPCIÓN</label>
+                <textarea placeholder="Explica de manera clara y detallada la situación..."></textarea>
+            </div>
 
-<label for="categoria">Categoria</label>
-<select id="categoria" name="categoria">
-<option>Infraestructura</option>
-<option>Servicios</option>
-<option>Docencia</option>
-</select>
+            <div class="row">
+                <div class="form-group">
+                    <label>CATEGORÍA</label>
+                    <select>
+                        <option>Infraestructura</option>
+                        <option>Servicios</option>
+                        <option>Docencia</option>
+                    </select>
+                </div>
 
-<br><br>
+                <div class="form-group">
+                    <label>PRIORIDAD</label>
+                    <select>
+                        <option>Normal</option>
+                        <option>Alta</option>
+                        <option>Baja</option>
+                    </select>
+                </div>
+            </div>
 
-<label for="evidencia">Subir evidencia</label>
-<input type="file" id="evidencia" name="evidencia">
+            <div class="form-group">
+                <label>EVIDENCIA</label>
+                <div class="upload-box">
+                    <p>📎</p>
+                    <p>Arrastra un archivo o <span>selecciona desde tu dispositivo</span></p>
+                    <small>PNG, JPG, PDF — máx. 10 MB</small>
+                    <input type="file">
+                </div>
+            </div>
 
-<br><br>
+            <div class="actions">
+                <button type="button" class="btn cancel">Cancelar</button>
+                <button type="submit" class="btn submit">Enviar ticket</button>
+            </div>
 
-<button type="submit">Enviar Ticket</button>
+        </form>
+    </div>
+</div>
 
-</form>
 {% endblock %}

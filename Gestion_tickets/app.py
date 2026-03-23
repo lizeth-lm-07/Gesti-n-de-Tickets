@@ -48,6 +48,11 @@ def crear_ticket():
     return render_template('crear_ticket.html')
 
 
+@app.route('/status')
+def status():
+    return render_template('status_ticket.html')
+
+
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos y tablas al arrancar
     app.run(debug=True)

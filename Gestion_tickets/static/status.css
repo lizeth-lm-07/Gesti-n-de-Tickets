@@ -1,0 +1,53 @@
+.status-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    background-color: white;   
+    min-height: 100vh;         
+    width: 100%;
+}
+
+.status-page h1 {
+    color: #6c8cff;
+    margin-bottom: 20px;
+}
+
+/* Contenedor */
+.tickets-container {
+    width: 320px;
+}
+
+/* Tarjeta */
+.ticket-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Info */
+.ticket-info p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+/* Status */
+.ticket-status {
+    font-weight: bold;
+}
+
+/* Colores por estado */
+.pendiente .ticket-status {
+    color: #f4b400; /* amarillo */
+}
+
+.resuelto .ticket-status {
+    color: #34a853; /* verde */
+}

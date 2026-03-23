@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block title %}Estatus del Ticket{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='status.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="status-page">
+
+    <h1>Estatus del Ticket</h1>
+
+    <div class="tickets-container">
+
+        <!-- Ticket 1 -->
+        <div class="ticket-card pendiente">
+            <div class="ticket-info">
+                <p><strong>ID:</strong> 13134233</p>
+                <p><strong>Tipo:</strong> Infraestructura</p>
+                <p><strong>Fecha:</strong> 30-01-2026</p>
+            </div>
+            <div class="ticket-status">Pendiente</div>
+        </div>
+
+        <!-- Ticket 2 -->
+        <div class="ticket-card resuelto">
+            <div class="ticket-info">
+                <p><strong>ID:</strong> 13134231</p>
+                <p><strong>Tipo:</strong> Servicios</p>
+                <p><strong>Fecha:</strong> 30-01-2026</p>
+            </div>
+            <div class="ticket-status">Resuelto</div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

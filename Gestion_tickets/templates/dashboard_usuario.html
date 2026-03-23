@@ -1,39 +1,23 @@
 {% extends "index.html" %}
 
-{% block title %}Panel de Usuario{% endblock %}
+{% block title %}Soporte{% endblock %}
 
 {% block content %}
 
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard_usuario.css') }}">
 
-<h1>Panel de Tickets</h1>
+<div class="menu-container">
 
+    <h1 class="logo">INBI - SOPORTE</h1>
 
+    <div class="menu-card">
+        <a href="crear_ticket" class="menu-btn">Generar Reporte</a>
+        <a href="status" class="menu-btn">Estatus Reporte</a>
+        <a href="#" class="menu-btn">Preguntas Frecuentes</a>
+    </div>
 
-<a href="/crear_ticket">
-    <button>Crear Ticket</button>
-</a>
+     <a href="{{ url_for('login_page') }}" class="home-icon">🏠</a>
 
-<h2>Mis Tickets</h2>
+</div>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Titulo</th>
-        <th>Estado</th>
-        <th>Prioridad</th>
-        <th>Fecha</th>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td>Proyector no funciona</td>
-        <td>Pendiente</td>
-        <td>Alta</td>
-        <td>20/03/2026</td>
-    </tr>
-
-</table>
 {% endblock %}
