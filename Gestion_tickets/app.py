@@ -10,26 +10,25 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(base_dir, "tickets.db")
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.secret_key = 'your_secret_key'  # Replace with a secure random key
-app.secret_key = 'your_secret_key'  # Needed for session management
+app.secret_key = 'inbi_secret_key_2024'
 
 @app.route('/', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST':
         username = request.form['correo']
         password = request.form['contrasena']
-        print("Correo recibido:", username)
-        print("Contraseña recibida:", password)
+        print("Correo:", username)
+        print("Password:", password)
 
         db_instance = Database("tickets.db")
         user = db_instance.login(username, password)
-        print("Usuario encontrado:", user)
-
-        print("Datos del formulario:", request.form)
+        print("User:", user)
 
         if user:
-            session['user_id'] = user[0]  # Store user ID in session
+            session['user_id'] = user[0]
+            session['nombre'] = user[1]
             tipo_usuario = user[2]
+            print("Tipo:", tipo_usuario)
             if tipo_usuario == 3:
                 return redirect(url_for('dashboard_admin'))
             else:
@@ -39,6 +38,10 @@ def login_page():
 
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login_page'))
 
 @app.route('/dashboard')
 def dashboard():
@@ -57,33 +60,54 @@ def dashboard():
 
 @app.route('/dashboard_admin')
 def dashboard_admin():
-    return render_template('dashboard_admin.html')
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db_instance = Database(db_path)
+    tickets = db_instance.obtener_todos_tickets()
+    
+    pendiente  = sum(1 for t in tickets if t[4] == 'Pendiente')
+    en_proceso = sum(1 for t in tickets if t[4] == 'En proceso')
+    resuelto   = sum(1 for t in tickets if t[4] == 'Resuelto')
+
+    print("Tickets:", tickets)
+    print("Pendiente:", pendiente)
+    print("En proceso:", en_proceso)
+    print("Resuelto:", resuelto)
+
+    return render_template('dashboard_admin.html', 
+                           tickets=tickets,
+                           pendiente=pendiente,
+                           en_proceso=en_proceso,
+                           resuelto=resuelto)
 
 @app.route('/crear_ticket', methods=['GET', 'POST'])
 def crear_ticket():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db_instance = Database(db_path)
+
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        descripcion = request.form['descripcion']
-        id_categoria = request.form['categoria']
-        id_prioridad = request.form['prioridad']
-        id_usuario = session.get('user_id')  # Get user ID from session
-
-        if id_usuario is None:
-            return redirect(url_for('login_page'))  # Redirect to login if not logged in
-
-        db_instance = Database(db_path)
+        titulo       = request.form['titulo']
+        descripcion  = request.form['descripcion']
+        id_categoria = int(request.form['categoria'])
+        id_prioridad = int(request.form['prioridad'])
+        id_usuario   = session['user_id']
         db_instance.crear_ticket(titulo, descripcion, id_categoria, id_prioridad, id_usuario)
-
         return redirect(url_for('dashboard'))
 
-
-    
-    return render_template('crear_ticket.html')
-
+    categorias  = db_instance.obtener_categorias()
+    prioridades = db_instance.obtener_prioridades()
+    return render_template('crear_ticket.html', categorias=categorias, prioridades=prioridades)
 
 @app.route('/status')
 def status():
-    return render_template('status_ticket.html')
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    db_instance = Database(db_path)
+    tickets = db_instance.obtener_tickets_usuario(session['user_id'])
+    return render_template('status_ticket.html', tickets=tickets)
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
@@ -107,7 +131,62 @@ def registro():
         return redirect(url_for('login_page'))
 
     return render_template('registro.html')
+
+
+@app.route('/gestion_tickets')
+def gestion_tickets():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db_instance = Database(db_path)
+    tickets = db_instance.obtener_todos_tickets()
+
+    # Filtros
+    filtro_estado    = request.args.get('estado', '')
+    filtro_prioridad = request.args.get('prioridad', '')
+    filtro_categoria = request.args.get('categoria', '')
+
+    if filtro_estado:
+        tickets = [t for t in tickets if t[4] == filtro_estado]
+    if filtro_prioridad:
+        tickets = [t for t in tickets if t[3] == filtro_prioridad]
+    if filtro_categoria:
+        tickets = [t for t in tickets if t[2] == filtro_categoria]
+
+    categorias  = db_instance.obtener_categorias()
+    prioridades = db_instance.obtener_prioridades()
+
+    return render_template('gestion_tickets.html',
+                           tickets=tickets,
+                           categorias=categorias,
+                           prioridades=prioridades,
+                           filtro_estado=filtro_estado,
+                           filtro_prioridad=filtro_prioridad,
+                           filtro_categoria=filtro_categoria)
+
+
+@app.route('/detalle_ticket/<int:id_ticket>', methods=['GET', 'POST'])
+def detalle_ticket(id_ticket):
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db_instance = Database(db_path)
+
+    if request.method == 'POST':
+        nuevo_estado = int(request.form['id_estado'])
+        comentario   = request.form.get('comentario_admin', '')
+        db_instance.actualizar_estado_ticket(id_ticket, nuevo_estado, comentario)
+        return redirect(url_for('gestion_tickets'))  # ← adentro del if POST
+
+    ticket = db_instance.obtener_ticket_detalle(id_ticket)
+    estados = db_instance.obtener_estados()
+    return render_template('detalle_ticket.html', ticket=ticket, estados=estados)
+
+@app.route('/preguntas_frecuentes')
+def preguntas_frecuentes():
+    return render_template('preguntas_frecuentes.html')
     
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos y tablas al arrancar
     app.run(debug=True)
+

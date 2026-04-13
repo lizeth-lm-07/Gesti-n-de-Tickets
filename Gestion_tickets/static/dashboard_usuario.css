@@ -1,98 +1,96 @@
 body {
+
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-
-    background: linear-gradient(135deg, #fff);
-
+    background: linear-gradient(135deg, #e8f0fe, #f5f7fa);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    padding-top: 20px;
+
 }
 
-/* CONTENEDOR */
+/* CONTENEDOR PRINCIPAL */
 .menu-container {
     text-align: center;
     width: 100%;
+    max-width: 500px;
+    padding: 20px;
 }
 
 /* NAV SUPERIOR */
 .top-nav {
-    position: absolute;
-    top: 30px;
-    left: 40px;
-    right: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed;
+    top: 20px;
+    left: 30px;
 }
 
-/* BOTÓN ATRÁS */
-.back-btn {
-    position: absolute;
-    left: 0;
-
-    text-decoration: none;
-    font-size: 18px;
-
-    background: #2f6fff;
-    color: white;
-
-    padding: 10px 14px;
-    border-radius: 10px;
-
-    transition: 0.2s;
+.top-nav {
+    padding: 20px 0 0 20px;
 }
 
-.back-btn:hover {
-    background: #2a5298;
+/* ENCABEZADO */
+.dashboard-header {
+    margin-bottom: 10px;
 }
 
-/* TÍTULO */
-.top-nav h1 {
+.dashboard-header h1 {
+    font-size: 28px;
     color: #2a5298;
-    margin-top: 20px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    letter-spacing: 1px;
+}
+
+
+/* DIVIDER */
+.divider {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #2eacf9, #2a5298);
+    border-radius: 10px;
+    margin: 12px auto 20px;
 }
 
 /* SALUDO */
 .saludo {
-    margin-top: 100px;
-    color: #000000;
+    font-size: 20px;
+    color: #333;
     font-weight: 500;
+    margin-bottom: 30px;
 }
 
 /* TARJETA */
 .menu-card {
-    background: #f5f7fa;
-    padding: 100px 40px;
+    background: white;
+    padding: 40px 50px;
     border-radius: 25px;
-
-    width: 350px;
-    margin: 40px auto;
-
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-
+    box-shadow: 0 20px 50px rgba(42, 82, 152, 0.15);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
 }
 
 /* BOTONES */
 .menu-btn {
     text-decoration: none;
     color: white;
-
     background: linear-gradient(90deg, #2eacf9, #2a5298);
-
-    padding: 20px;
+    padding: 18px;
     border-radius: 15px;
-
+    font-size: 15px;
+    font-weight: 600;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* HOVER */
 .menu-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(42, 82, 152, 0.3);
+    text-decoration: none;
+    color: white;
 }

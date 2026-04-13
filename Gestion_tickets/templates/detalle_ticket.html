@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+
+{% block title %}Detalle Ticket - INBI{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='detalle_ticket.css') }}">
+
+<div class="detalle-container">
+
+    <div class="detalle-header">
+        <h1>Detalle del Ticket</h1>
+        <div class="divider"></div>
+    </div>
+
+    <div class="detalle-card">
+
+        <div class="detalle-info">
+            <p><span class="label">ID:</span> {{ ticket[0] }}</p>
+            <p><span class="label">Fecha:</span> {{ ticket[5][:10] if ticket[5] else 'N/A' }}</p>
+            <p><span class="label">Usuario:</span> {{ ticket[1] }}</p>
+            <p><span class="label">Categoría:</span> {{ ticket[2] }}</p>
+            <p><span class="label">Prioridad:</span> {{ ticket[3] }}</p>
+            <p><span class="label">Estado actual:</span> 
+                <span class="badge badge-{{ ticket[4] | lower | replace(' ', '-') if ticket[4] else 'sin-estado' }}">
+                    {{ ticket[4] or 'Sin estado' }}
+                </span>
+            </p>
+        </div>
+
+        <div class="detalle-descripcion">
+            <p class="label">Título:</p>
+            <p>{{ ticket[6] }}</p>
+            <p class="label">Descripción:</p>
+            <p>{{ ticket[7] }}</p>
+            {% if ticket[8] %}
+                <p class="label">Evidencia:</p>
+                <img src="{{ url_for('static', filename=ticket[8]) }}" alt="Evidencia" class="evidencia-img">
+            {% endif %}
+        </div>
+
+        <form method="POST" action="{{ url_for('detalle_ticket', id_ticket=ticket[0]) }}" class="form-estado">
+            <label class="label">Cambiar estado:</label>
+            <select name="id_estado">
+                {% for estado in estados %}
+                    <option value="{{ estado[0] }}" {% if estado[0] == ticket[9] %}selected{% endif %}>
+                        {{ estado[1] }}
+                    </option>
+                {% endfor %}
+            </select>
+            <label class="label">Respuesta al usuario:</label>
+            <textarea name="comentario_admin" rows="4" placeholder="Escribe una respuesta para el usuario...">{{ ticket[10] or '' }}</textarea>
+            <button type="submit" class="btn-guardar">Guardar cambios</button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

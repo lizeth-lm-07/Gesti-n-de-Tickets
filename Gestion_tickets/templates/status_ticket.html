@@ -14,25 +14,34 @@
 
     <div class="tickets-container">
 
-        <!-- Ticket 1 -->
-        <div class="ticket-card pendiente">
-            <div class="ticket-info">
-                <p><strong>ID:</strong> 13134233</p>
-                <p><strong>Tipo:</strong> Infraestructura</p>
-                <p><strong>Fecha:</strong> 30-01-2026</p>
-            </div>
-            <div class="ticket-status">Pendiente</div>
-        </div>
+        {% if tickets %}
+            {% for ticket in tickets %}
 
-        <!-- Ticket 2 -->
-        <div class="ticket-card resuelto">
-            <div class="ticket-info">
-                <p><strong>ID:</strong> 13134231</p>
-                <p><strong>Tipo:</strong> Servicios</p>
-                <p><strong>Fecha:</strong> 30-01-2026</p>
-            </div>
-            <div class="ticket-status">Resuelto</div>
-        </div>
+                {% if ticket[4] == 'Pendiente' %}
+                    {% set clase = 'pendiente' %}
+                {% elif ticket[4] == 'En proceso' %}
+                    {% set clase = 'en-proceso' %}
+                {% else %}
+                    {% set clase = 'resuelto' %}
+                {% endif %}
+
+                <div class="ticket-card {{ clase }}">
+                    <div class="ticket-info">
+                        <p><strong>ID:</strong> {{ ticket[0] }}</p>
+                        <p><strong>Título:</strong> {{ ticket[1] }}</p>
+                        <p><strong>Categoría:</strong> {{ ticket[3] }}</p>
+                        <p><strong>Fecha:</strong> {{ ticket[2][:10] if ticket[2] else 'N/A' }}</p>
+                        {% if ticket[5] %}
+                            <p><strong>Respuesta:</strong> <em>{{ ticket[5] }}</em></p>
+                        {% endif %}
+                    </div>
+                    <div class="ticket-status">{{ ticket[4] }}</div>
+                </div>
+
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center; color:#888;">No tienes tickets registrados aún.</p>
+        {% endif %}
 
     </div>
 

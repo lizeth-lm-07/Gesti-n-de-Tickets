@@ -1,29 +1,58 @@
 {% extends "index.html" %}
 
-{% block title %}Admin{% endblock %}
+{% block title %}Admin - INBI{% endblock %}
 
 {% block content %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='dashboard_admin.css') }}">
 
-<div style="padding: 40px;">
+<div class="admin-container">
 
-    <h1>Panel de Administración</h1>
+    <div class="admin-header">
+        <h1>INBI</h1>
+        <div class="divider"></div>
+    </div>
 
-    <p>Gestión de tickets</p>
+    <div class="chart-card">
+        <h3>Tickets por Estado</h3>
+    <canvas id="ticketChart"
+    data-pendiente="{{ pendiente }}"
+    data-en-proceso="{{ en_proceso }}"
+    data-resuelto="{{ resuelto }}">
+</canvas>
+    </div>
 
-    <br>
-
-    <a href="#">
-        <button>Ver todos los tickets</button>
-    </a>
-
-    <br><br>
-
-    <a href="#">
-        <button>Gestión de áreas</button>
-    </a>
+    <div class="menu-card">
+       <a href="{{ url_for('gestion_tickets') }}" class="menu-btn"> Gestión de Tickets</a>
+        <a href="#" class="menu-btn"> Responsables de Departamento</a>
+    </div>
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    window.onload = function() {
+        const canvas = document.getElementById('ticketChart');
+        const pendiente  = parseInt(canvas.dataset.pendiente);
+        const en_proceso = parseInt(canvas.dataset.enProceso);
+        const resuelto   = parseInt(canvas.dataset.resuelto);
+
+        const ctx = canvas.getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pendiente', 'En proceso', 'Resuelto'],
+                datasets: [{
+                    data: [pendiente, en_proceso, resuelto],
+                    backgroundColor: ['#f4b400', '#2eacf9', '#34a853'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: { legend: { display: false } }
+            }
+        });
+    };
+</script>
 {% endblock %}

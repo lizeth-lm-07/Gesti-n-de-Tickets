@@ -47,6 +47,10 @@ def init_db():
         nombre_prioridad TEXT NOT NULL
     )
     """)
+    cursor.execute("INSERT OR IGNORE INTO categoria (id_categoria, nombre_categoria) VALUES (1,'Infraestructura')")
+    cursor.execute("INSERT OR IGNORE INTO categoria (id_categoria, nombre_categoria) VALUES (2,'Servicios')")
+    cursor.execute("INSERT OR IGNORE INTO categoria (id_categoria, nombre_categoria) VALUES (3,'Docencia')")
+    cursor.execute("INSERT OR IGNORE INTO categoria (id_categoria, nombre_categoria) VALUES (4,'Administrativo')")
 
     cursor.execute("INSERT OR IGNORE INTO prioridad VALUES (1,'Baja')")
     cursor.execute("INSERT OR IGNORE INTO prioridad VALUES (2,'Media')")
@@ -105,7 +109,11 @@ def init_db():
         FOREIGN KEY (id_estado) REFERENCES estado(id_estado)
     )
     """)
-
+    # Agregar columna comentario_admin si no existe
+    try:
+        cursor.execute("ALTER TABLE ticket ADD COLUMN comentario_admin TEXT")
+    except:
+       pass
     conn.commit()
     conn.close()
 

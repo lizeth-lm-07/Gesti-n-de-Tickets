@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+
+{% block title %}Preguntas Frecuentes - INBI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='preguntas_frecuentes.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="faq-container">
+
+    <div class="faq-header">
+        <h1>Preguntas Frecuentes</h1>
+        <p>Encuentra respuestas a las dudas más comunes</p>
+        <div class="divider"></div>
+    </div>
+
+    <div class="faq-list">
+
+        <div class="faq-item">
+            <button class="faq-pregunta" onclick="toggleFaq(this)">
+                ¿Cómo genero un reporte? <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-respuesta">
+                <p>Inicia sesión, ve a <strong>"Generar Reporte"</strong>, llena el formulario con el título, descripción, categoría y prioridad, y haz clic en <strong>"Enviar ticket"</strong>.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-pregunta" onclick="toggleFaq(this)">
+                ¿Qué significa cada estado? <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-respuesta">
+                <p><strong>Pendiente:</strong> tu ticket está en espera de ser atendido.<br>
+                <strong>En proceso:</strong> el equipo ya está trabajando en tu reporte.<br>
+                <strong>Resuelto:</strong> tu problema fue solucionado.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-pregunta" onclick="toggleFaq(this)">
+                ¿Cuánto tarda en resolverse mi ticket? <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-respuesta">
+                <p>El tiempo varía según la prioridad asignada. Generalmente entre <strong>24 y 72 horas</strong>. Los tickets de prioridad alta se atienden primero.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-pregunta" onclick="toggleFaq(this)">
+                ¿Cómo sé si mi ticket fue atendido? <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-respuesta">
+                <p>Revisa la sección <strong>"Estatus Reporte"</strong> en el menú principal. Ahí podrás ver el estado actual de tu ticket y la respuesta del equipo administrativo.</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleFaq(btn) {
+    const respuesta = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const estaAbierto = respuesta.classList.contains('abierto');
+
+    document.querySelectorAll('.faq-respuesta').forEach(r => r.classList.remove('abierto'));
+    document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '+');
+
+    if (!estaAbierto) {
+        respuesta.classList.add('abierto');
+        icon.textContent = '−';
+    }
+}
+</script>
+
+{% endblock %}

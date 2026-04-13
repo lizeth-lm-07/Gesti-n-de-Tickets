@@ -9,7 +9,7 @@
 }
 
 .status-page h1 {
-    color: #6c8cff;
+    color: #2a5298;
     margin-bottom: 20px;
 }
 
@@ -50,4 +50,8 @@
 
 .resuelto .ticket-status {
     color: #34a853; /* verde */
+}
+
+.en-proceso .ticket-status {
+    color: #2eacf9;
 }

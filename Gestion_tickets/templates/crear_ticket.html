@@ -1,10 +1,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='crear_ticket.css') }}">
 
-<form action="{{ url_for('crear_ticket') }}" method="post">
-
+<form action="{{ url_for('crear_ticket') }}" method="post" enctype="multipart/form-data">
 <div class="page">
     <div class="header">
-
         <h1>Crear ticket</h1>
     </div>
 
@@ -12,30 +10,30 @@
 
         <div class="form-group">
             <label>TÍTULO</label>
-            <input type="text" name="titulo" placeholder="Ingresa el título de la situación" />
+            <input type="text" name="titulo" placeholder="Ingresa el título de la situación" required />
         </div>
 
         <div class="form-group">
             <label>DESCRIPCIÓN</label>
-            <textarea name="descripcion" placeholder="Explica de manera clara y detallada la situación..."></textarea>
+            <textarea name="descripcion" placeholder="Explica de manera clara y detallada la situación..." required></textarea>
         </div>
 
         <div class="row">
             <div class="form-group">
                 <label>CATEGORÍA</label>
-                <select name="categoria">
-                    <option>Infraestructura</option>
-                    <option>Servicios</option>
-                    <option>Docencia</option>
+                <select name="categoria" required>
+                    {% for cat in categorias %}
+                        <option value="{{ cat[0] }}">{{ cat[1] }}</option>
+                    {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Prioridad</label>
-                <select name="prioridad">
-                    <option>Baja</option>
-                    <option>Media</option>
-                    <option>Alta</option>
+                <label>PRIORIDAD</label>
+                <select name="prioridad" required>
+                    {% for pri in prioridades %}
+                        <option value="{{ pri[0] }}">{{ pri[1] }}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -46,16 +44,15 @@
                 <p>📎</p>
                 <p>Arrastra un archivo o <span>selecciona desde tu dispositivo</span></p>
                 <small>PNG, JPG, PDF — máx. 10 MB</small>
-                <input type="file" name="archivo">
+                <input type="file" name="archivo" accept=".png,.jpg,.jpeg,.pdf">
             </div>
         </div>
 
         <div class="actions">
-            <button type="button" class="btn cancel">Cancelar</button>
+            <a href="{{ url_for('dashboard') }}" class="btn cancel">Cancelar</a>
             <button type="submit" class="btn submit">Enviar ticket</button>
         </div>
 
     </div>
 </div>
-
 </form>

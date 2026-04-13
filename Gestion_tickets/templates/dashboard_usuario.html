@@ -8,39 +8,27 @@
 
 <div class="menu-container">
 
-    <div class="top-nav">
-        <a href="{{ url_for('login_page') }}" class="back-btn">←</a>
-        <h1>INBI - SOPORTE</h1>
+    <div class="dashboard-header">
+        <h1>INBI</h1>
     </div>
 
-    <h2 class="saludo">
-        Buenas noches, {{ nombre }}
-    </h2>
+    <div class="divider"></div>
+
+    <h2 class="saludo" id="saludo">Bienvenido, {{ nombre }}</h2>
 
     <div class="menu-card">
-        <a href="crear_ticket" class="menu-btn">Generar Reporte</a>
-        <a href="status" class="menu-btn">Estatus Reporte</a>
-        <a href="#" class="menu-btn">Preguntas Frecuentes</a>
+        <a href="{{ url_for('crear_ticket') }}" class="menu-btn">📋 Generar Reporte</a>
+        <a href="{{ url_for('status') }}" class="menu-btn">🔍 Estatus Reporte</a>
+        <a href="{{ url_for('preguntas_frecuentes') }}" class="menu-btn">❓ Preguntas Frecuentes</a>
     </div>
 
 </div>
 
 <script>
     const nombre = "{{ nombre }}";
-
     const hora = new Date().getHours();
-    let saludo = "";
-
-    if (hora < 12) {
-        saludo = "Buen día";
-    } else if (hora < 19) {
-        saludo = "Buenas tardes";
-    } else {
-        saludo = "Buenas noches";
-    }
-
-    document.getElementById("saludo").innerText =
-        `${saludo}, ${nombre}`;
+    let saludo = hora < 12 ? "Buen día" : hora < 19 ? "Buenas tardes" : "Buenas noches";
+    document.getElementById("saludo").innerText = `${saludo}, ${nombre}`;
 </script>
 
 {% endblock %}
