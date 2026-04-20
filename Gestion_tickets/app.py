@@ -125,7 +125,8 @@ def crear_ticket():
             descripcion,
             id_categoria,
             id_prioridad,
-            id_usuario
+            id_usuario,
+            None
         )
 
         return redirect(url_for('dashboard'))
@@ -293,4 +294,3 @@ def eliminar_responsable(id_responsable):
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos y tablas al arrancar
     app.run(debug=True)
-

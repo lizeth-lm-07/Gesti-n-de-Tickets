@@ -3,7 +3,7 @@
 <form action="{{ url_for('crear_ticket') }}" method="post" enctype="multipart/form-data">
 <div class="page">
     <div class="header">
-        <h1>Crear </h1>
+        <h1>Crear Ticket</h1>
     </div>
 
     <div class="card">
@@ -20,11 +20,16 @@
 
         <div class="form-group">
             <label>EVIDENCIA</label>
-            <div class="upload-box">
+
+            <div class="upload-box" id="uploadBox">
                 <p>📎</p>
-                <p>Arrastra un archivo o <span>selecciona desde tu dispositivo</span></p>
+                <p>Arrastra un archivo o <span>haz clic aquí</span></p>
                 <small>PNG, JPG, PDF — máx. 10 MB</small>
-                <input type="file" name="archivo" accept=".png,.jpg,.jpeg,.pdf">
+
+                <input type="file" id="archivo" name="archivo" accept=".png,.jpg,.jpeg,.pdf" hidden>
+
+                <!-- Preview -->
+                <div id="preview" style="margin-top:10px;"></div>
             </div>
         </div>
 
@@ -36,3 +41,67 @@
     </div>
 </div>
 </form>
+
+<script>
+const uploadBox = document.getElementById("uploadBox");
+const fileInput = document.getElementById("archivo");
+const preview = document.getElementById("preview");
+
+// Click abre selector
+uploadBox.addEventListener("click", () => fileInput.click());
+
+// Drag & drop
+uploadBox.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    uploadBox.style.border = "2px dashed #007bff";
+});
+
+uploadBox.addEventListener("dragleave", () => {
+    uploadBox.style.border = "";
+});
+
+uploadBox.addEventListener("drop", (e) => {
+    e.preventDefault();
+    fileInput.files = e.dataTransfer.files;
+    handleFile(fileInput.files[0]);
+});
+
+// Cambio normal
+fileInput.addEventListener("change", () => {
+    handleFile(fileInput.files[0]);
+});
+
+function handleFile(file) {
+    preview.innerHTML = "";
+
+    if (!file) return;
+
+    // Validar tamaño (10MB)
+    if (file.size > 10 * 1024 * 1024) {
+        alert("El archivo supera los 10MB");
+        fileInput.value = "";
+        return;
+    }
+
+    const type = file.type;
+
+    // Imagen
+    if (type.startsWith("image/")) {
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.style.maxWidth = "200px";
+        img.style.borderRadius = "10px";
+        preview.appendChild(img);
+    }
+    // PDF
+    else if (type === "application/pdf") {
+        const p = document.createElement("p");
+        p.textContent = "📄 " + file.name;
+        preview.appendChild(p);
+    }
+    else {
+        alert("Formato no permitido");
+        fileInput.value = "";
+    }
+}
+</script>
