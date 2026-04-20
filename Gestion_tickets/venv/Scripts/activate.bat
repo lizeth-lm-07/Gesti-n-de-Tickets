@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\victoria\Desktop\repo_admin_soft\venv
+set VIRTUAL_ENV=C:\Users\sergi\OneDrive\Desktop\sistema de tickets\Gesti-n-de-Tickets\Gestion_tickets\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

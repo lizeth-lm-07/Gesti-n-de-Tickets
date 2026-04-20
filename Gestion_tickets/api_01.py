@@ -13,14 +13,12 @@ class Database:
     def connect(self):
         try:
             self.conn = sqlite3.connect(self.db_file)
-            print("Conexión a la base de datos establecida.")
         except Error as e:
             print(f"Error al conectar a la base de datos: {e}")
 
     def disconnect(self):
         if self.conn:
             self.conn.close()
-            print("Conexión a la base de datos cerrada.")
 
     def login(self, correo, contraseña):
         self.connect()
@@ -62,12 +60,14 @@ class Database:
         self.disconnect()
         return user
 
+    # 🔥 YA TRAE IMAGEN
     def obtener_todos_tickets(self):
         self.connect()
         cursor = self.conn.cursor()
         cursor.execute("""
             SELECT t.id_ticket, u.nombre, c.nombre_categoria,
-                   p.nombre_prioridad, e.nombre_estado, t.fecha_creacion
+                   p.nombre_prioridad, e.nombre_estado,
+                   t.fecha_creacion, t.ruta_imagen
             FROM ticket t
             LEFT JOIN usuario u ON t.id_usuario = u.id_usuario
             LEFT JOIN categoria c ON t.id_categoria = c.id_categoria
@@ -79,16 +79,28 @@ class Database:
         self.disconnect()
         return tickets
 
-    def crear_ticket(self, titulo, descripcion, id_categoria, id_prioridad, id_usuario, ruta_imagen=None):
+    # 🔥 CORREGIDO
+    def crear_ticket(self, titulo, descripcion, id_categoria, id_prioridad, id_usuario, ruta_imagen):
         self.connect()
         cursor = self.conn.cursor()
-        fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        cursor.execute(
-            """INSERT INTO ticket 
-               (titulo, descripcion, fecha_creacion, id_usuario, id_categoria, id_prioridad, id_estado, ruta_imagen)
-               VALUES (?, ?, ?, ?, ?, ?, 1, ?)""",
-            (titulo, descripcion, fecha, id_usuario, id_categoria, id_prioridad, ruta_imagen)
-        )
+
+        cursor.execute("""
+            INSERT INTO ticket (
+                titulo, descripcion, fecha_creacion,
+                id_usuario, id_categoria, id_prioridad,
+                id_estado, id_departamento, ruta_imagen
+            )
+            VALUES (?, ?, datetime('now'), ?, ?, ?, 1, ?, ?)
+        """, (
+            titulo,
+            descripcion,
+            id_usuario,
+            id_categoria,
+            id_prioridad,
+            id_categoria,
+            ruta_imagen
+        ))
+
         self.conn.commit()
         self.disconnect()
 
@@ -108,7 +120,6 @@ class Database:
         self.disconnect()
         return prioridades
 
-    # CORRECCIÓN: agrega comentario_admin al SELECT
     def obtener_tickets_usuario(self, id_usuario):
         self.connect()
         cursor = self.conn.cursor()
@@ -125,7 +136,6 @@ class Database:
         self.disconnect()
         return tickets
 
-    # CORRECCIÓN: agrega comentario_admin al SELECT
     def obtener_ticket_detalle(self, id_ticket):
         self.connect()
         cursor = self.conn.cursor()
@@ -153,7 +163,6 @@ class Database:
         self.disconnect()
         return estados
 
-    # CORRECCIÓN: ahora recibe y guarda comentario_admin
     def actualizar_estado_ticket(self, id_ticket, id_estado, comentario_admin=None):
         self.connect()
         cursor = self.conn.cursor()
@@ -161,64 +170,5 @@ class Database:
             "UPDATE ticket SET id_estado = ?, comentario_admin = ? WHERE id_ticket = ?",
             (id_estado, comentario_admin, id_ticket)
         )
-        self.conn.commit()
-        self.disconnect()
-
-    def obtener_responsables(self):
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute("""
-            SELECT r.id_responsable, r.cargo, d.nombre_departamento, r.correo, r.telefono
-            FROM responsable r
-            LEFT JOIN departamento d ON r.id_departamento = d.id_departamento
-            ORDER BY d.nombre_departamento, r.cargo
-        """)
-        responsables = cursor.fetchall()
-        self.disconnect()
-        return responsables
-
-    def obtener_departamentos(self):
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT id_departamento, nombre_departamento FROM departamento")
-        departamentos = cursor.fetchall()
-        self.disconnect()
-        return departamentos
-
-    def agregar_responsable(self, cargo, id_departamento, correo, telefono):
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(
-            "INSERT INTO responsable (cargo, id_departamento, correo, telefono) VALUES (?, ?, ?, ?)",
-            (cargo, id_departamento, correo, telefono)
-        )
-        self.conn.commit()
-        self.disconnect()
-
-    def obtener_responsable_por_id(self, id_responsable):
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute("""
-            SELECT id_responsable, cargo, id_departamento, correo, telefono
-            FROM responsable WHERE id_responsable = ?
-        """, (id_responsable,))
-        responsable = cursor.fetchone()
-        self.disconnect()
-        return responsable
-
-    def editar_responsable(self, id_responsable, cargo, id_departamento, correo, telefono):
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute(
-            "UPDATE responsable SET cargo=?, id_departamento=?, correo=?, telefono=? WHERE id_responsable=?",
-            (cargo, id_departamento, correo, telefono, id_responsable)
-        )
-        self.conn.commit()
-        self.disconnect()
-
-    def eliminar_responsable(self, id_responsable):
-        self.connect()
-        cursor = self.conn.cursor()
-        cursor.execute("DELETE FROM responsable WHERE id_responsable=?", (id_responsable,))
         self.conn.commit()
         self.disconnect()
