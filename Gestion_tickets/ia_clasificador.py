@@ -2,7 +2,7 @@ import json
 import re
 from anthropic import Anthropic
 
-client = Anthropic(api_key="tu_key")
+client = Anthropic(api_key="t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")
 
 def clasificar_ticket(texto):
     prompt = f"""
