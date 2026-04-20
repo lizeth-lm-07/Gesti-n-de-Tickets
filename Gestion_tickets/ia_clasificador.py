@@ -1,33 +1,44 @@
 import json
+import re
 from anthropic import Anthropic
 
-client = Anthropic(api_key="TU_API_KEY")
+client = Anthropic(api_key="tu_key")
 
 def clasificar_ticket(texto):
     prompt = f"""
-Clasifica este ticket de una escuela:
+Eres un sistema experto en clasificación de tickets escolares.
+
+Clasifica el ticket en:
 
 Categorías:
-- Infraestructura
-- Servicios
-- Docencia
-- Administrativo
+- Infraestructura: problemas físicos (salones, luz, aire, etc.)
+- Servicios: plataforma, internet, sistemas
+- Docencia: profesores, clases, enseñanza
+- Administrativo: pagos, inscripciones, trámites
 
 Prioridades:
-- Alta
-- Media
-- Baja
+- Alta: afecta directamente clases o impide el aprendizaje
+- Media: afecta parcialmente pero no detiene todo
+- Baja: informativo o no urgente
 
-Reglas:
-- Alta: bloquea clases o acceso
-- Media: afecta pero no detiene
-- Baja: informativo
+Ejemplos:
+
+Ticket: "No puedo entrar a la plataforma"
+Respuesta: {{"categoria": "Servicios", "prioridad": "Alta"}}
+
+Ticket: "El maestro no vino a clase"
+Respuesta: {{"categoria": "Docencia", "prioridad": "Alta"}}
+
+Ticket: "El aire acondicionado no funciona"
+Respuesta: {{"categoria": "Infraestructura", "prioridad": "Media"}}
+
+Ticket: "Tengo duda sobre mi pago"
+Respuesta: {{"categoria": "Administrativo", "prioridad": "Baja"}}
+
+Responde ÚNICAMENTE con JSON válido, sin explicaciones.
 
 Ticket:
 "{texto}"
-
-Responde SOLO en JSON:
-{{"categoria": "...", "prioridad": "..."}}
 """
 
     response = client.messages.create(
@@ -38,7 +49,16 @@ Responde SOLO en JSON:
 
     texto_respuesta = response.content[0].text.strip()
 
+    print("Respuesta IA:", texto_respuesta)
+
     try:
-        return json.loads(texto_respuesta)
-    except:
+        json_texto = re.search(r'\{.*\}', texto_respuesta, re.DOTALL).group()
+        resultado = json.loads(json_texto)
+
+        print("JSON limpio:", resultado)
+
+        return resultado
+
+    except Exception as e:
+        print("Error procesando IA:", e)
         return {"categoria": "Servicios", "prioridad": "Media"}

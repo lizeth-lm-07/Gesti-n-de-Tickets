@@ -3,7 +3,24 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from api_01 import Database
 from database import init_db
+from ia_clasificador import clasificar_ticket
 
+def mapear_categoria(nombre):
+    mapa = {
+        "Infraestructura": 1,
+        "Servicios": 2,
+        "Docencia": 3,
+        "Administrativo": 4
+    }
+    return mapa.get(nombre, 2)
+
+def mapear_prioridad(nombre):
+    mapa = {
+        "Baja": 1,
+        "Media": 2,
+        "Alta": 3
+    }
+    return mapa.get(nombre, 2)
 
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -83,23 +100,44 @@ def dashboard_admin():
 
 @app.route('/crear_ticket', methods=['GET', 'POST'])
 def crear_ticket():
+    print("Método recibido:", request.method)
     if 'user_id' not in session:
         return redirect(url_for('login_page'))
 
     db_instance = Database(db_path)
 
     if request.method == 'POST':
-        titulo       = request.form['titulo']
-        descripcion  = request.form['descripcion']
-        id_categoria = int(request.form['categoria'])
-        id_prioridad = int(request.form['prioridad'])
-        id_usuario   = session['user_id']
-        db_instance.crear_ticket(titulo, descripcion, id_categoria, id_prioridad, id_usuario)
+        titulo = request.form['titulo']
+        descripcion = request.form['descripcion']
+        id_usuario = session['user_id']
+
+        # 🔥 IA aquí
+        resultado = clasificar_ticket(descripcion)
+
+        categoria_texto = resultado.get("categoria", "Servicios")
+        prioridad_texto = resultado.get("prioridad", "Media")
+
+        id_categoria = mapear_categoria(categoria_texto)
+        id_prioridad = mapear_prioridad(prioridad_texto)
+
+        db_instance.crear_ticket(
+            titulo,
+            descripcion,
+            id_categoria,
+            id_prioridad,
+            id_usuario
+        )
+
         return redirect(url_for('dashboard'))
 
-    categorias  = db_instance.obtener_categorias()
+    categorias = db_instance.obtener_categorias()
     prioridades = db_instance.obtener_prioridades()
-    return render_template('crear_ticket.html', categorias=categorias, prioridades=prioridades)
+
+    return render_template(
+        'crear_ticket.html',
+        categorias=categorias,
+        prioridades=prioridades
+    )
 
 @app.route('/status')
 def status():
