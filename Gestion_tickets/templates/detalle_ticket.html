@@ -5,7 +5,8 @@
 {% block content %}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='detalle_ticket.css') }}">
-
+{% set show_back = True %}
+{% include 'navbar_admin.html' %}
 <div class="detalle-container">
 
     <div class="detalle-header">

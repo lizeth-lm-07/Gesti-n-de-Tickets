@@ -7,14 +7,14 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_usuario.css') }}">
 
 <div class="menu-container">
-
+{% include 'navbar.html' with context %}
+{% set show_back = False %}
     <div class="dashboard-header">
         <h1>INBI</h1>
     </div>
 
     <div class="divider"></div>
-{% include 'navbar.html' with context %}
-{% set show_back = False %}
+
 
 <h1>Bienvenido al Dashboard</h1>
 

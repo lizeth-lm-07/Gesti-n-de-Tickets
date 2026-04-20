@@ -188,3 +188,53 @@ a:hover {
     transform: translateY(0);
   }
 }
+
+/* 🔹 NAVBAR */
+.navbar {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto; /* centra horizontal */
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3aa0d8, #2f5fa5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: white;
+}
+
+/* 🔹 USUARIO */
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 🔹 BOTÓN CERRAR SESIÓN */
+.btn-logout {
+    background: white;
+    color: #2f5fa5;
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-logout:hover {
+    background: #f1f1f1;
+}
+
+/* 🔹 BOTÓN REGRESAR */
+.btn-back {
+    color: white;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background: rgba(255,255,255,0.2);
+}
