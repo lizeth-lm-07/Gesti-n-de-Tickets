@@ -1,0 +1,197 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f5e6e6, #f5f0f0);
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.resp-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.resp-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.resp-header h1 {
+    color: #8b0000;
+    font-size: 26px;
+    margin: 0 0 4px 0;
+}
+
+.resp-header p {
+    color: #888;
+    font-size: 13px;
+    margin: 0;
+}
+
+.divider {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #8b0000, #c0392b);
+    border-radius: 10px;
+    margin: 10px auto 0;
+}
+
+/* FORMULARIO */
+.form-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px 30px;
+    box-shadow: 0 10px 30px rgba(139,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.form-card h3 {
+    color: #8b0000;
+    margin: 0 0 20px 0;
+    font-size: 16px;
+}
+
+.resp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8b0000;
+    margin: 0;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+}
+
+.btn-agregar {
+    background: linear-gradient(90deg, #c0392b, #8b0000);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    align-self: flex-end;
+    margin-top: 0;
+}
+
+.btn-agregar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139,0,0,0.3);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-cancelar {
+    color: #8b0000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* TARJETAS */
+.resp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.resp-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(139,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.resp-dept {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(90deg, #c0392b, #8b0000);
+    padding: 4px 10px;
+    border-radius: 20px;
+    align-self: flex-start;
+}
+
+.resp-cargo {
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+}
+
+.resp-info p {
+    margin: 3px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.resp-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.btn-editar {
+    background: #f0f5ff;
+    color: #2a5298;
+    padding: 5px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-editar:hover {
+    background: #2a5298;
+    color: white;
+}
+
+.btn-eliminar {
+    background: #fff0f0;
+    color: #8b0000;
+    padding: 5px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-eliminar:hover {
+    background: #8b0000;
+    color: white;
+}

@@ -163,3 +163,62 @@ class Database:
         )
         self.conn.commit()
         self.disconnect()
+
+    def obtener_responsables(self):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT r.id_responsable, r.cargo, d.nombre_departamento, r.correo, r.telefono
+            FROM responsable r
+            LEFT JOIN departamento d ON r.id_departamento = d.id_departamento
+            ORDER BY d.nombre_departamento, r.cargo
+        """)
+        responsables = cursor.fetchall()
+        self.disconnect()
+        return responsables
+
+    def obtener_departamentos(self):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id_departamento, nombre_departamento FROM departamento")
+        departamentos = cursor.fetchall()
+        self.disconnect()
+        return departamentos
+
+    def agregar_responsable(self, cargo, id_departamento, correo, telefono):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "INSERT INTO responsable (cargo, id_departamento, correo, telefono) VALUES (?, ?, ?, ?)",
+            (cargo, id_departamento, correo, telefono)
+        )
+        self.conn.commit()
+        self.disconnect()
+
+    def obtener_responsable_por_id(self, id_responsable):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT id_responsable, cargo, id_departamento, correo, telefono
+            FROM responsable WHERE id_responsable = ?
+        """, (id_responsable,))
+        responsable = cursor.fetchone()
+        self.disconnect()
+        return responsable
+
+    def editar_responsable(self, id_responsable, cargo, id_departamento, correo, telefono):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute(
+            "UPDATE responsable SET cargo=?, id_departamento=?, correo=?, telefono=? WHERE id_responsable=?",
+            (cargo, id_departamento, correo, telefono, id_responsable)
+        )
+        self.conn.commit()
+        self.disconnect()
+
+    def eliminar_responsable(self, id_responsable):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM responsable WHERE id_responsable=?", (id_responsable,))
+        self.conn.commit()
+        self.disconnect()

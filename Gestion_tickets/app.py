@@ -185,6 +185,72 @@ def detalle_ticket(id_ticket):
 @app.route('/preguntas_frecuentes')
 def preguntas_frecuentes():
     return render_template('preguntas_frecuentes.html')
+
+
+@app.route('/responsables', methods=['GET', 'POST'])
+def responsables():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db_instance = Database(db_path)
+
+    if request.method == 'POST':
+        cargo          = request.form['cargo']
+        id_departamento = int(request.form['id_departamento'])
+        correo         = request.form['correo']
+        telefono       = request.form['telefono']
+        db_instance.agregar_responsable(cargo, id_departamento, correo, telefono)
+        return redirect(url_for('responsables'))
+
+    responsables  = db_instance.obtener_responsables()
+    departamentos = db_instance.obtener_departamentos()
+    cargos = [
+        'Jefe de Mantenimiento', 'Técnico de Soporte',
+        'Jefe de Servicios', 'Coordinador de Servicios',
+        'Coordinador Académico', 'Jefe de Área Académica',
+        'Director Administrativo', 'Asistente Administrativo'
+    ]
+    return render_template('responsables.html',
+                           responsables=responsables,
+                           departamentos=departamentos,
+                           cargos=cargos)
+
+
+@app.route('/editar_responsable/<int:id_responsable>', methods=['GET', 'POST'])
+def editar_responsable(id_responsable):
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db_instance = Database(db_path)
+
+    if request.method == 'POST':
+        cargo           = request.form['cargo']
+        id_departamento = int(request.form['id_departamento'])
+        correo          = request.form['correo']
+        telefono        = request.form['telefono']
+        db_instance.editar_responsable(id_responsable, cargo, id_departamento, correo, telefono)
+        return redirect(url_for('responsables'))
+
+    responsable   = db_instance.obtener_responsable_por_id(id_responsable)
+    departamentos = db_instance.obtener_departamentos()
+    cargos = [
+        'Jefe de Mantenimiento', 'Técnico de Soporte',
+        'Jefe de Servicios', 'Coordinador de Servicios',
+        'Coordinador Académico', 'Jefe de Área Académica',
+        'Director Administrativo', 'Asistente Administrativo'
+    ]
+    return render_template('editar_responsable.html',
+                           responsable=responsable,
+                           departamentos=departamentos,
+                           cargos=cargos)
+
+@app.route('/eliminar_responsable/<int:id_responsable>')
+def eliminar_responsable(id_responsable):
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+    db_instance = Database(db_path)
+    db_instance.eliminar_responsable(id_responsable)
+    return redirect(url_for('responsables'))
     
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos y tablas al arrancar

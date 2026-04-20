@@ -1,0 +1,85 @@
+{% extends "index.html" %}
+
+{% block title %}Responsables - INBI{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='responsables.css') }}">
+
+<div class="resp-container">
+
+    <div class="resp-header">
+        <h1>Responsables de Área</h1>
+        <p>Gestión de responsables por departamento</p>
+        <div class="divider"></div>
+    </div>
+
+    <!-- FORMULARIO AGREGAR -->
+    <div class="form-card">
+        <h3>Agregar Responsable</h3>
+        <form method="POST" action="{{ url_for('responsables') }}" class="resp-form">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Cargo</label>
+                    <select name="cargo" required>
+                        {% for cargo in cargos %}
+                            <option value="{{ cargo }}">{{ cargo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Departamento</label>
+                    <select name="id_departamento" required>
+                        {% for dep in departamentos %}
+                            <option value="{{ dep[0] }}">{{ dep[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Correo</label>
+                    <input type="email" name="correo" placeholder="correo@inbi.mx" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" name="telefono" placeholder="81XXXXXXXX" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-agregar">+ Agregar</button>
+
+        </form>
+    </div>
+
+    <!-- TARJETAS DE RESPONSABLES -->
+    <div class="resp-grid">
+        {% if responsables %}
+            {% for resp in responsables %}
+            <div class="resp-card">
+                <div class="resp-dept">{{ resp[2] }}</div>
+                <div class="resp-cargo">{{ resp[1] }}</div>
+                <div class="resp-info">
+                    <p>📧 {{ resp[3] }}</p>
+                    <p>📞 {{ resp[4] }}</p>
+                </div>
+                <div class="resp-actions">
+                    <a href="{{ url_for('editar_responsable', id_responsable=resp[0]) }}" class="btn-editar">Editar</a>
+                    <a href="{{ url_for('eliminar_responsable', id_responsable=resp[0]) }}"
+                       class="btn-eliminar"
+                       onclick="return confirm('¿Eliminar este responsable?')">Eliminar</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center; color:#888; grid-column: 1/-1;">No hay responsables registrados aún.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

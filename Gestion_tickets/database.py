@@ -76,6 +76,24 @@ def init_db():
     )
     """)
 
+    # Tabla Responsables
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS responsable (
+        id_responsable INTEGER PRIMARY KEY AUTOINCREMENT,
+        cargo TEXT NOT NULL,
+        id_departamento INTEGER,
+        correo TEXT,
+        telefono TEXT,
+        FOREIGN KEY (id_departamento) REFERENCES departamento(id_departamento)
+    )
+    """)
+
+    # Departamentos semilla
+    cursor.execute("INSERT OR IGNORE INTO departamento (id_departamento, nombre_departamento) VALUES (1,'Infraestructura')")
+    cursor.execute("INSERT OR IGNORE INTO departamento (id_departamento, nombre_departamento) VALUES (2,'Servicios')")
+    cursor.execute("INSERT OR IGNORE INTO departamento (id_departamento, nombre_departamento) VALUES (3,'Docencia')")
+    cursor.execute("INSERT OR IGNORE INTO departamento (id_departamento, nombre_departamento) VALUES (4,'Administrativo')")
+
     # Tabla Ticket
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS ticket (
