@@ -1,6 +1,6 @@
 from anthropic import Anthropic
 
-client = Anthropic(api_key="tu_key")
+client = Anthropic(api_key="")
 
 response = client.messages.create(
     model="claude-haiku-4-5-20251001",

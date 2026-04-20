@@ -13,8 +13,10 @@
     </div>
 
     <div class="divider"></div>
+{% include 'navbar.html' with context %}
+{% set show_back = False %}
 
-    <h2 class="saludo" id="saludo">Bienvenido, {{ nombre }}</h2>
+<h1>Bienvenido al Dashboard</h1>
 
     <div class="menu-card">
         <a href="{{ url_for('crear_ticket') }}" class="menu-btn">📋 Generar Reporte</a>
