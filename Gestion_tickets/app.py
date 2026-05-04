@@ -5,6 +5,7 @@ from api_01 import Database
 from database import init_db
 from ia_clasificador import clasificar_ticket
 
+
 def mapear_categoria(nombre):
     mapa = {
         "Infraestructura": 1,
@@ -98,9 +99,17 @@ def dashboard_admin():
                            en_proceso=en_proceso,
                            resuelto=resuelto)
 
+import time
+from werkzeug.utils import secure_filename
+
+UPLOAD_FOLDER = os.path.join(base_dir, 'static/uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 @app.route('/crear_ticket', methods=['GET', 'POST'])
 def crear_ticket():
-    print("Método recibido:", request.method)
     if 'user_id' not in session:
         return redirect(url_for('login_page'))
 
@@ -111,11 +120,21 @@ def crear_ticket():
         descripcion = request.form['descripcion']
         id_usuario = session['user_id']
 
-        # 🔥 IA aquí
+        # Subida de imagen
+        archivo = request.files.get('archivo')
+        nombre_archivo = None
+        if archivo and archivo.filename:
+            filename = str(int(time.time())) + "" + secure_filename(archivo.filename)
+            archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            nombre_archivo = filename
+
         resultado = clasificar_ticket(descripcion)
 
         categoria_texto = resultado.get("categoria", "Servicios")
         prioridad_texto = resultado.get("prioridad", "Media")
+        accion = resultado.get("accion", "Sin acción")
+
+        print("Acción IA:", accion)
 
         id_categoria = mapear_categoria(categoria_texto)
         id_prioridad = mapear_prioridad(prioridad_texto)
@@ -126,19 +145,14 @@ def crear_ticket():
             id_categoria,
             id_prioridad,
             id_usuario,
-            None
+            nombre_archivo,
+            accion
         )
-
         return redirect(url_for('dashboard'))
 
     categorias = db_instance.obtener_categorias()
     prioridades = db_instance.obtener_prioridades()
-
-    return render_template(
-        'crear_ticket.html',
-        categorias=categorias,
-        prioridades=prioridades
-    )
+    return render_template('crear_ticket.html', categorias=categorias, prioridades=prioridades)
 
 @app.route('/status')
 def status():

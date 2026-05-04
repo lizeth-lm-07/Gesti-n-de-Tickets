@@ -34,9 +34,9 @@
             <p>{{ ticket[6] }}</p>
             <p class="label">Descripción:</p>
             <p>{{ ticket[7] }}</p>
-            {% if ticket[8] %}
-                <p class="label">Evidencia:</p>
-                <img src="{{ url_for('static', filename=ticket[8]) }}" alt="Evidencia" class="evidencia-img">
+           {% if ticket[8] %}
+            <p class="label">Evidencia:</p>
+            <img src="{{ url_for('static', filename='uploads/' + ticket[8]) }}" alt="Evidencia" class="evidencia-img">
             {% endif %}
         </div>
 
@@ -53,7 +53,8 @@
             <textarea name="comentario_admin" rows="4" placeholder="Escribe una respuesta para el usuario...">{{ ticket[10] or '' }}</textarea>
             <button type="submit" class="btn-guardar">Guardar cambios</button>
         </form>
-
+        <p><strong> Recomendación del sistema:</strong></p>
+        <p>{{ ticket[11] }}</p>
     </div>
 
 </div>

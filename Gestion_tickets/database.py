@@ -132,6 +132,11 @@ def init_db():
         cursor.execute("ALTER TABLE ticket ADD COLUMN comentario_admin TEXT")
     except:
        pass
+    # Agregar columna accion (IA) si no existe
+    try:
+        cursor.execute("ALTER TABLE ticket ADD COLUMN accion TEXT")
+    except:
+        pass
     conn.commit()
     conn.close()
 

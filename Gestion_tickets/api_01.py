@@ -80,7 +80,7 @@ class Database:
         return tickets
 
     # 🔥 CORREGIDO
-    def crear_ticket(self, titulo, descripcion, id_categoria, id_prioridad, id_usuario, ruta_imagen):
+    def crear_ticket(self, titulo, descripcion, id_categoria, id_prioridad, id_usuario, ruta_imagen, accion):
         self.connect()
         cursor = self.conn.cursor()
 
@@ -88,9 +88,9 @@ class Database:
             INSERT INTO ticket (
                 titulo, descripcion, fecha_creacion,
                 id_usuario, id_categoria, id_prioridad,
-                id_estado, id_departamento, ruta_imagen
+                id_estado, id_departamento, ruta_imagen, accion
             )
-            VALUES (?, ?, datetime('now'), ?, ?, ?, 1, ?, ?)
+            VALUES (?, ?, datetime('now'), ?, ?, ?, 1, ?, ?, ?)
         """, (
             titulo,
             descripcion,
@@ -98,7 +98,8 @@ class Database:
             id_categoria,
             id_prioridad,
             id_categoria,
-            ruta_imagen
+            ruta_imagen,
+            accion
         ))
 
         self.conn.commit()
@@ -143,7 +144,7 @@ class Database:
             SELECT t.id_ticket, u.nombre, c.nombre_categoria,
                    p.nombre_prioridad, e.nombre_estado, t.fecha_creacion,
                    t.titulo, t.descripcion, t.ruta_imagen, t.id_estado,
-                   t.comentario_admin
+                   t.comentario_admin, t.accion
             FROM ticket t
             LEFT JOIN usuario u ON t.id_usuario = u.id_usuario
             LEFT JOIN categoria c ON t.id_categoria = c.id_categoria
