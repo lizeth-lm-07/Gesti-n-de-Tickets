@@ -18,6 +18,7 @@ def init_db():
     cursor.execute("INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (1,'Alumno')")
     cursor.execute("INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (2,'Docente')")
     cursor.execute("INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (3,'Administracion')")
+    cursor.execute("INSERT OR IGNORE INTO rol (id_rol, nombre_rol) VALUES (4,'Empleado')")
     
 
     # Tabla Usuario
@@ -127,6 +128,7 @@ def init_db():
         FOREIGN KEY (id_estado) REFERENCES estado(id_estado)
     )
     """)
+    
     # Agregar columna comentario_admin si no existe
     try:
         cursor.execute("ALTER TABLE ticket ADD COLUMN comentario_admin TEXT")
@@ -137,7 +139,11 @@ def init_db():
         cursor.execute("ALTER TABLE ticket ADD COLUMN accion TEXT")
     except:
         pass
+    try:
+        cursor.execute("ALTER TABLE usuario ADD COLUMN id_departamento INTEGER")
+    except:
+        pass
+   
     conn.commit()
     conn.close()
 
-   

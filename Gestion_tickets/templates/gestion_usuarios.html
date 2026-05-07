@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='gestion_usuarios.css') }}">
+{% set show_back = true %}
+{% include 'navbar_admin.html' %}
+<div class="container">
+    <h1>Gestión de Usuarios</h1>
+
+    <form method="POST">
+        <div class="form-row">
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="email" name="correo" placeholder="Correo" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+
+            <select name="id_rol">
+                <option value="1">Alumno</option>
+                <option value="2">Docente</option>
+                <option value="3">Administración</option>
+                <option value="4">Empleado</option>
+            </select>
+
+            <select name="id_departamento">
+                {% for d in departamentos %}
+                    <option value="{{ d[0] }}">{{ d[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <button class="btn">Crear</button>
+        </div>
+    </form>
+
+    <div class="user-list">
+        <h2>Usuarios</h2>
+
+        {% for u in usuarios %}
+        <div class="user-card">
+            <div class="user-info">
+                <strong>{{ u[1] }}</strong><br>
+                {{ u[2] }}<br>
+                {{ u[4] if u[4] else "Sin departamento" }}
+            </div>
+
+            <span class="badge 
+                {% if u[3] == 'Administracion' %}admin
+                {% elif u[3] == 'Alumno' %}alumno
+                {% elif u[3] == 'Docente' %}docente
+                {% else %}empleado
+                {% endif %}
+            ">
+                {{ u[3] }}
+            </span>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>

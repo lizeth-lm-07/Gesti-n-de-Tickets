@@ -52,10 +52,11 @@ class Database:
     def obtener_usuario_por_id(self, id_usuario):
         self.connect()
         cursor = self.conn.cursor()
-        cursor.execute(
-            "SELECT id_usuario, nombre, correo, id_rol FROM usuario WHERE id_usuario = ?",
-            (id_usuario,)
-        )
+        cursor.execute("""
+            SELECT id_usuario, nombre, correo, id_rol, id_departamento
+            FROM usuario
+            WHERE id_usuario = ?
+        """, (id_usuario,))
         user = cursor.fetchone()
         self.disconnect()
         return user
@@ -233,3 +234,49 @@ class Database:
         cursor.execute("DELETE FROM responsable WHERE id_responsable = ?", (id_responsable,))
         self.conn.commit()
         self.disconnect()
+    
+    def crear_usuario_admin(self, nombre, correo, contrasena, id_rol, id_departamento):
+        self.connect()
+        cursor = self.conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO usuario (nombre, correo, contraseña, id_rol, id_departamento)
+            VALUES (?, ?, ?, ?, ?)
+        """, (nombre, correo, contrasena, id_rol, id_departamento))
+
+        self.conn.commit()
+        self.disconnect()
+
+    def obtener_usuarios(self):
+        self.connect()
+        cursor = self.conn.cursor()
+
+        cursor.execute("""
+            SELECT u.id_usuario, u.nombre, u.correo, r.nombre_rol, d.nombre_departamento
+            FROM usuario u
+            LEFT JOIN rol r ON u.id_rol = r.id_rol
+            LEFT JOIN departamento d ON u.id_departamento = d.id_departamento
+        """)
+
+        usuarios = cursor.fetchall()
+        self.disconnect()
+        return usuarios
+    
+    def obtener_tickets_por_departamento(self, id_departamento):
+        self.connect()
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT t.id_ticket, u.nombre, c.nombre_categoria,
+                p.nombre_prioridad, e.nombre_estado,
+                t.fecha_creacion, t.ruta_imagen
+            FROM ticket t
+            LEFT JOIN usuario u ON t.id_usuario = u.id_usuario
+            LEFT JOIN categoria c ON t.id_categoria = c.id_categoria
+            LEFT JOIN prioridad p ON t.id_prioridad = p.id_prioridad
+            LEFT JOIN estado e ON t.id_estado = e.id_estado
+            WHERE t.id_departamento = ?
+            ORDER BY t.fecha_creacion DESC
+        """, (id_departamento,))
+        tickets = cursor.fetchall()
+        self.disconnect()
+        return tickets

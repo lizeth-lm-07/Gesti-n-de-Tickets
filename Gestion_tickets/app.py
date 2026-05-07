@@ -49,6 +49,10 @@ def login_page():
             print("Tipo:", tipo_usuario)
             if tipo_usuario == 3:
                 return redirect(url_for('dashboard_admin'))
+
+            elif tipo_usuario == 4:
+                return redirect(url_for('gestion_tickets'))  # 👈 clave
+
             else:
                 return redirect(url_for('dashboard'))
         else:
@@ -192,9 +196,25 @@ def gestion_tickets():
         return redirect(url_for('login_page'))
 
     db_instance = Database(db_path)
-    tickets = db_instance.obtener_todos_tickets()
 
-    # Filtros
+    # 🔥 Obtener usuario logueado
+    usuario = db_instance.obtener_usuario_por_id(session['user_id'])
+    id_rol = usuario[3]
+
+    # 🔥 ADMIN → ve TODO
+    if id_rol == 3:
+        tickets = db_instance.obtener_todos_tickets()
+
+    # 🔥 EMPLEADO → solo su departamento
+    elif id_rol == 4:
+        id_departamento = usuario[4]
+        tickets = db_instance.obtener_tickets_por_departamento(id_departamento)
+
+    # 🔥 USUARIO NORMAL (Alumno / Docente) → solo sus tickets
+    else:
+        tickets = db_instance.obtener_tickets_usuario(session['user_id'])
+
+    # FILTROS
     filtro_estado    = request.args.get('estado', '')
     filtro_prioridad = request.args.get('prioridad', '')
     filtro_categoria = request.args.get('categoria', '')
@@ -304,7 +324,34 @@ def eliminar_responsable(id_responsable):
     db_instance = Database(db_path)
     db_instance.eliminar_responsable(id_responsable)
     return redirect(url_for('responsables'))
+
+@app.route('/gestion_usuarios', methods=['GET', 'POST'])
+def gestion_usuarios():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
+
+    db = Database(db_path)
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        contrasena = request.form['contrasena']
+        id_rol = int(request.form['id_rol'])
+        id_departamento = int(request.form['id_departamento'])
+
+        db.crear_usuario_admin(nombre, correo, contrasena, id_rol, id_departamento)
+
+        return redirect(url_for('gestion_usuarios'))
+
+    usuarios = db.obtener_usuarios()
+    departamentos = db.obtener_departamentos()
+
+    return render_template('gestion_usuarios.html',
+                           usuarios=usuarios,
+                           departamentos=departamentos)
     
 if __name__ == '__main__':
     init_db()  # Inicializa la base de datos y tablas al arrancar
     app.run(debug=True)
+      
+    
