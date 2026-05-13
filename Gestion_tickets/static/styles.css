@@ -7,7 +7,7 @@ body {
 /* CONTENEDOR GENERAL */
 .container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   background: white;
   margin: 20px;
   border-radius: 12px;
