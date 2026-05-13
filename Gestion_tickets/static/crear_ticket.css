@@ -83,6 +83,7 @@ textarea {
     padding: 25px;
     position: relative;
     color: #4c6fa8;
+    cursor: pointer;
 }
 
 .upload-box span {
@@ -102,23 +103,41 @@ textarea {
 
 /* Botones */
 .actions {
-    display: flex;
+    display: flex !important;
     justify-content: flex-end;
-    gap: 10px;
+    align-items: stretch; /* Estira ambos a la misma altura */
+    gap: 15px;
+    margin-top: 30px;
 }
 
+/* Estilo base para ambos */
 .btn {
-    padding: 10px 20px;
+    display: flex !important;
+    align-items: center;      /* Centra el texto verticalmente */
+    justify-content: center;   /* Centra el texto horizontalmente */
+    height: 44px;             /* Altura fija idéntica */
+    padding: 0 25px;
     border-radius: 10px;
-    border: none;
-    cursor: pointer;
     font-weight: bold;
+    font-size: 14px;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;      /* Elimina cualquier margen heredado */
+    line-height: normal !important; /* Evita que la altura de línea lo mueva */
 }
 
+/* Ajuste específico para el de Cancelar */
 .cancel {
-    background: transparent;
-    border: 1px solid #999;
-    color: #333;
+    background: #f8f9fa;
+    border: 1px solid #dcdcdc;
+    color: #444;
+}
+
+.cancel:hover {
+    background: #af1515;
+    border-color: #8d0000;
+    text-decoration: none;
+    color:white;
 }
 
 .submit {
@@ -128,4 +147,5 @@ textarea {
 
 .submit:hover {
     background: #1f55cc;
+    box-shadow: 0 4px 12px rgba(47, 111, 255, 0.3);
 }

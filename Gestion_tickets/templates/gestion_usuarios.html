@@ -1,34 +1,41 @@
 {% set show_back = True %}
 {% extends "index.html" %}
 
+{% block content %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='gestion_usuarios.css') }}">
 
 <div class="container">
+
     <h1>Gestión de Usuarios</h1>
 
-    <form method="POST">
-        <div class="form-row">
-            <input type="text" name="nombre" placeholder="Nombre" required>
-            <input type="email" name="correo" placeholder="Correo" required>
-            <input type="password" name="contrasena" placeholder="Contraseña" required>
+    <!-- FORMULARIO -->
+    <div class="form-container">
+        <form method="POST">
+            <div class="form-row">
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="email" name="correo" placeholder="Correo" required>
+                <input type="password" name="contrasena" placeholder="Contraseña" required>
 
-            <select name="id_rol">
-                <option value="1">Alumno</option>
-                <option value="2">Docente</option>
-                <option value="3">Administración</option>
-                <option value="4">Empleado</option>
-            </select>
+                <select name="id_rol">
+                    <option value="1">Alumno</option>
+                    <option value="2">Docente</option>
+                    <option value="3">Administración</option>
+                    <option value="4">Empleado</option>
+                </select>
 
-            <select name="id_departamento">
-                {% for d in departamentos %}
-                    <option value="{{ d[0] }}">{{ d[1] }}</option>
-                {% endfor %}
-            </select>
+                <select name="id_departamento">
+                    {% for d in departamentos %}
+                        <option value="{{ d[0] }}">{{ d[1] }}</option>
+                    {% endfor %}
+                </select>
 
-            <button class="btn">Crear</button>
-        </div>
-    </form>
+                <button class="btn">Crear</button>
+            </div>
+        </form>
+    </div>
 
+    <!-- USUARIOS -->
     <div class="user-list">
         <h2>Usuarios</h2>
 
@@ -55,3 +62,5 @@
     </div>
 
 </div>
+
+{% endblock %}
