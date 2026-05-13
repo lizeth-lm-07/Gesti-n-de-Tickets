@@ -1,3 +1,4 @@
+{% set show_back = False %}
 {% extends "index.html" %}
 
 {% block title %}Soporte{% endblock %}
@@ -7,16 +8,14 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_usuario.css') }}">
 
 <div class="menu-container">
-{% include 'navbar.html' with context %}
-{% set show_back = False %}
+
     <div class="dashboard-header">
         <h1>INBI</h1>
     </div>
 
     <div class="divider"></div>
 
-
-<h1>Bienvenido al Dashboard</h1>
+    <h1>Bienvenido al Dashboard</h1>
 
     <div class="menu-card">
         <a href="{{ url_for('crear_ticket') }}" class="menu-btn">📋 Generar Reporte</a>
@@ -25,12 +24,5 @@
     </div>
 
 </div>
-
-<script>
-    const nombre = "{{ nombre }}";
-    const hora = new Date().getHours();
-    let saludo = hora < 12 ? "Buen día" : hora < 19 ? "Buenas tardes" : "Buenas noches";
-    document.getElementById("saludo").innerText = `${saludo}, ${nombre}`;
-</script>
 
 {% endblock %}

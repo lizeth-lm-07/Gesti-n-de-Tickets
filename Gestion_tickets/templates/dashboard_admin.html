@@ -1,3 +1,4 @@
+{% set show_back = False %}
 {% extends "index.html" %}
 
 {% block title %}Admin - INBI{% endblock %}
@@ -7,9 +8,8 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_admin.css') }}">
 
 <div class="admin-container">
-{% set show_back = false %}
-{% include 'navbar_admin.html' %}
-    <div class="admin-header">
+
+<div class="admin-header">
         <h1>INBI</h1>
         <div class="divider"></div>
     </div>

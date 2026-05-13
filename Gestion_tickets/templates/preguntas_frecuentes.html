@@ -1,16 +1,14 @@
+{% set show_back = True %}
 {% extends "index.html" %}
 
 {% block title %}Preguntas Frecuentes - INBI{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='preguntas_frecuentes.css') }}">
-{% endblock %}
-
 {% block content %}
 
+<link rel="stylesheet" href="{{ url_for('static', filename='preguntas_frecuentes.css') }}">
+
 <div class="faq-container">
-{% set show_back = True %}
-{% include 'navbar.html' %}
+
     <div class="faq-header">
         <h1>Preguntas Frecuentes</h1>
         <p>Encuentra respuestas a las dudas más comunes</p>

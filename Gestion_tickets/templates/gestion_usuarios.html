@@ -1,6 +1,8 @@
+{% set show_back = True %}
+{% extends "index.html" %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='gestion_usuarios.css') }}">
-{% set show_back = true %}
-{% include 'navbar_admin.html' %}
+
 <div class="container">
     <h1>Gestión de Usuarios</h1>
 

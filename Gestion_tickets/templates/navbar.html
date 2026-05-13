@@ -1,53 +1,42 @@
-<nav style="
-    width: 100%;
-    margin-top: 10px;
-    max-width: 800px;
-    margin: 0 auto 20px auto;
-    padding: 12px 20px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #3aa0d8, #2f5fa5);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    color: white;
-">
+<nav class="topbar">
 
-    <div>
+    <div class="topbar-left">
         {% if show_back %}
-            <a href="javascript:history.back()" style="
-                color: #ffffff;
-                text-decoration: none;
-                font-weight: 500;
-                padding: 6px 10px;
-                border-radius: 6px;
-                transition: 0.3s;
-            "
-            onmouseover="this.style.background='rgba(255,255,255,0.2)'"
-            onmouseout="this.style.background='transparent'">
-                ⬅ Regresar
+            <a href="javascript:history.back()" class="back-btn">
+                ←
             </a>
         {% endif %}
     </div>
 
-    <div style="display: flex; align-items: center; gap: 15px;">
-        <span style="font-size: 14px;">
-            👤 {{ session.get('nombre', 'Usuario') }}
-        </span>
+    <div class="topbar-center" id="saludo-navbar">
+        {% set hora = moment().hour if moment else 12 %}
 
-        <a href="{{ url_for('logout') }}" style="
-            background: white;
-            color: #2f5fa5;
-            padding: 6px 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        "
-        onmouseover="this.style.background='#f1f1f1'"
-        onmouseout="this.style.background='white'">
+        {% if hora < 12 %}
+            Buenos días,
+        {% elif hora < 19 %}
+            Buenas tardes,
+        {% else %}
+            Buenas noches,
+        {% endif %}
+
+        {{ session.get('nombre', 'Usuario') }}
+    </div>
+
+    <div class="topbar-right">
+        <a href="{{ url_for('logout') }}" class="logout-btn">
             Cerrar sesión
         </a>
     </div>
+
+    <script>
+const hora = new Date().getHours();
+let saludo = "Buenas tardes";
+
+if (hora < 12) saludo = "Buenos días";
+else if (hora >= 19) saludo = "Buenas noches";
+
+document.getElementById("saludo-navbar").textContent =
+    `${saludo}, {{ session.get('nombre', 'Usuario') }}`;
+</script>
 
 </nav>

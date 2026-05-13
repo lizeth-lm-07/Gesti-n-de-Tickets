@@ -1,14 +1,12 @@
+{% set show_back = True %}
 {% extends "index.html" %}
 
 {% block title %}Estatus del Ticket{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='status.css') }}">
-{% endblock %}
-
 {% block content %}
-{% set show_back = True %}
-{% include 'navbar.html' %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='status.css') }}">
+
 <div class="status-page">
 
     <h1>Estatus del Ticket</h1>

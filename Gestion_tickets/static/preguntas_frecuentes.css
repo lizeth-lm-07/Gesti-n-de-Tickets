@@ -3,7 +3,6 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #e8f0fe, #f5f7fa);
     min-height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: flex-start;
     padding-top: 40px;
@@ -14,6 +13,7 @@ body {
     width: 100%;
     max-width: 600px;
     padding: 20px;
+    margin: 0 auto;
 }
 
 .faq-header {

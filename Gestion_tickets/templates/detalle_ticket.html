@@ -1,3 +1,4 @@
+{% set show_back = True %}
 {% extends "index.html" %}
 
 {% block title %}Detalle Ticket - INBI{% endblock %}
@@ -5,8 +6,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="{{ url_for('static', filename='detalle_ticket.css') }}">
-{% set show_back = True %}
-{% include 'navbar_admin.html' %}
+
 <div class="detalle-container">
 
     <div class="detalle-header">
@@ -22,7 +22,7 @@
             <p><span class="label">Usuario:</span> {{ ticket[1] }}</p>
             <p><span class="label">Categoría:</span> {{ ticket[2] }}</p>
             <p><span class="label">Prioridad:</span> {{ ticket[3] }}</p>
-            <p><span class="label">Estado actual:</span> 
+            <p><span class="label">Estado actual:</span>
                 <span class="badge badge-{{ ticket[4] | lower | replace(' ', '-') if ticket[4] else 'sin-estado' }}">
                     {{ ticket[4] or 'Sin estado' }}
                 </span>
@@ -34,7 +34,7 @@
             <p>{{ ticket[6] }}</p>
             <p class="label">Descripción:</p>
             <p>{{ ticket[7] }}</p>
-           {% if ticket[8] %}
+            {% if ticket[8] %}
             <p class="label">Evidencia:</p>
             <img src="{{ url_for('static', filename='uploads/' + ticket[8]) }}" alt="Evidencia" class="evidencia-img">
             {% endif %}
@@ -53,8 +53,10 @@
             <textarea name="comentario_admin" rows="4" placeholder="Escribe una respuesta para el usuario...">{{ ticket[10] or '' }}</textarea>
             <button type="submit" class="btn-guardar">Guardar cambios</button>
         </form>
-        <p><strong> Recomendación del sistema:</strong></p>
+
+        <p><strong>Recomendación del sistema:</strong></p>
         <p>{{ ticket[11] }}</p>
+
     </div>
 
 </div>

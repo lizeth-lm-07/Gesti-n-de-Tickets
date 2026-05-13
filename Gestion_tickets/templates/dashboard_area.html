@@ -4,11 +4,11 @@
 
 {% block content %}
 
+ {% set show_back = False %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_usuario.css') }}">
 
 <div class="menu-container">
-    {% include 'navbar.html' with context %}
-    {% set show_back = False %}
 
     <div class="dashboard-header">
         <h1>INBI - Área</h1>

@@ -4,7 +4,6 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #e8f0fe, #f5f7fa);
     min-height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: flex-start;
     padding-top: 20px;
@@ -15,8 +14,9 @@ body {
 .menu-container {
     text-align: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     padding: 20px;
+    margin: 0 auto;
 }
 
 /* NAV SUPERIOR */
